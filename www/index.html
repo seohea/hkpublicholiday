@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+<head>
+    <title>hk public holiday</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- see http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag -->
+    <!-- <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=2"> -->
+    <style>
+        /* following two viewport lines are equivalent to meta viewport statement above, and is needed for Windows */
+        /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html and http://dev.w3.org/csswg/css-device-adapt/ */
+        @-ms-viewport { width: 100vw ; min-zoom: 100% ; zoom: 100% ; }          @viewport { width: 100vw ; min-zoom: 100% zoom: 100% ; }
+        @-ms-viewport { user-zoom: fixed ; min-zoom: 100% ; }                   @viewport { user-zoom: fixed ; min-zoom: 100% ; }
+        /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+    </style>
+    
+
+    <!-- See explanation at the bottom of this file for info regarding placement of JS libraries. -->
+    <!-- These library references (below) are just examples to give you the general idea... -->
+    <!-- <script src="lib/mc/hammer.js"></script> -->
+    <!-- <script src="lib/ft/fastclick.js"></script> -->
+    <!-- <script src="lib/jq/jquery.js"></script> -->
+
+    <link rel="stylesheet" href="css/app.css">
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="css/ionicons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/stylish-portfolio.css" rel="stylesheet">
+    
+    <link href="css/animate.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC3ohP03-3S82suw_zt5GWQG4xndvQwsuE",
+        authDomain: "seohea-56411.firebaseapp.com",
+        databaseURL: "https://seohea-56411.firebaseio.com",
+        projectId: "seohea-56411",
+        storageBucket: "",
+        messagingSenderId: "9140781891"
+      };
+      firebase.initializeApp(config);
+    </script>
+</head>
+
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" id="top" class="header">
+        <div class="container">
+            <div class="col-lg-12 text-center">
+                <h3 id="todaydate">香港公眾假期</h3>
+            </div>
+        </div> 
+    </nav>
+    
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <!--li>
+                <a href="#calandar" onclick=$("#menu-close").click();>日曆</a>
+            </li>
+            <li>
+                <a href="#holidays" onclick=$("#menu-close").click();>假期列表</a>
+            </li-->
+            <li>
+                <a href="#" onclick=$("#menu-close").click(); data-toggle="modal" data-target="#myModal">關於 香港公眾假期</a>
+            </li>
+            <li>
+                <a href="https://play.google.com/store/apps/developer?id=Seohea+Production" onclick=$("#menu-close").click();>更多APP</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Header 
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+            <div class="col-lg-12 text-center">
+                <h3>香港公眾假期</h3>
+            </div>
+        </div> 
+    </header>
+    -->
+    <section id="calandar" class="calandar">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="my-calendar"></div>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <div id="daywidget">
+                        <span id="day"></span>
+                        <br/>
+                        <span id="event"></span>
+                        <br/>
+                        <span id="daydiff"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    
+    <section id="holidays" class="holidays">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center" id="holidayssectiontitle">
+                    <h3>香港假期列表</h3>
+                </div>
+                <div class="col-lg-12">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#2017list" aria-controls="2017list" role="tab" data-toggle="tab">2017</a></li>
+                    <li role="presentation"><a href="#2018list" aria-controls="2018list" role="tab" data-toggle="tab">2018</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="2017list">
+                        <ul id="holidaylist2017" class="list-group holidaylist">
+                            <li class="list-group-item">所有星期日</li>
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="2018list">
+                        <ul id="holidaylist2018" class="list-group holidaylist">
+                            <li class="list-group-item">所有星期日</li>
+                        </ul>
+                    </div>
+                  </div>
+
+                    
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    
+    <nav class="navbar navbar-default navbar-fixed-bottom" id="bottomnav">
+        <ul class="nav nav-pills nav-justified">
+            <li role="presentation"><a href="#" onclick="showcalandar();"><i class="ion-ios-calendar-outline"></i><br><span class="describe">日曆</span></a></li>
+            <li role="presentation"><a href="#" onclick="showholidaylist()"><i class="ion-ios-list-outline"></i><br><span class="describe">假期列表</span></a></li>
+            <li role="presentation"><a href="#" data-toggle="modal" data-target="#myModal"><i class="ion-ios-information-outline"></i><br>關於</a></li>
+            <li role="presentation"><a href="https://play.google.com/store/apps/developer?id=Seohea+Production"><i class="ion-ios-search"></i><br>更多APP</a></li>
+        </ul>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="padding-top:50px;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">關於 香港公眾假期</h4>
+          </div>
+          <div class="modal-body"> 
+                <p>香港公眾假期 版本 1.0</p>
+                <p>覆蓋年份 (2017-2018)</p>
+                <p>- 請假攻略</p>
+                <p>目前只支援繁體中文</p>
+                <p>資料來源: GOVHK香港政府一站通</p>
+                <hr>
+                <p>版權所有 &copy; Seohea Production</p>
+                <p>如有問題反映，歡迎電郵至 seohea.production@gmail.com</p>
+                <p>歡迎評分及評論本應用程式，我們十分尊重用家意見。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Lastest Vote!</h2>
+                    <hr/>
+                    <div class="well" id="loading">
+                        <span class="glyphicon glyphicon-refresh"></span><br>Loading
+                    </div>
+                    <ul class="list-group" id="questions"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="submit" class="submit">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1>New Vote!</h1>
+                    <form class="form-horizontal">
+                      <div class="form-group">
+                        <label for="choiceA" class="col-sm-2 control-label">Choice A</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="choiceA" placeholder="Choice A">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="choiceB" class="col-sm-2 control-label">Choice B</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="choiceB" placeholder="Choice B">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <a href="#about" class="btn btn-default" onclick="sumbit_pressed();">Submit</a>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    <section id="services" class="services bg-primary">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h1 class="align-center">A Blank Project Template</h1>
+                    <p class="align-center">
+                        To use this template as a starter app, start with init-app.js and app.js for your JavaScript code.
+                        See the README.md file for more details and the comments inside index.html, app.js and init-app.js.
+                    </p>
+                    <br>
+                    <p class="align-center">
+                        <input type="button" id="id_btnHello" value="Touch Me">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    -->
+
+    <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+    <!-- Place your remote debugging weinre script URL here, if it does not work below. -->
+
+    <!-- See <head> section above for additional JS libraries loaded as part of this application. -->
+
+    <!-- "Phantom" cordova.js required for projects that use Cordova plugins. -->
+    <script src="cordova.js"></script>
+
+    <!-- for your event code, see README and file comments for details -->
+    <script src="js/app.js"></script>
+    <!-- for your init code, see README and file comments for details -->
+    <script src="js/init-app.js"></script>
+    <!-- normalizes device and document ready events, see file for details -->
+    <script src="xdk/init-dev.js"></script>
+
+    <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+    <!-- Place your remote debugging weinre script URL here, if it does not work above. -->
+    
+    
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    
+    <script src="js/zabuto_calendar.js"></script>
+    
+    <script src="js/hammer.min.js"></script>
+    
+    <!-- Custom Theme JavaScript -->
+    <script>
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    </script>
+    
+    <script>
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                this.addClass('animated ' + animationName).one(animationEnd, function() {
+                    $(this).removeClass('animated ' + animationName);
+                });
+                return this;
+            }
+        });
+    </script>
+    
+    <script>
+        var eventData = [
+            {date:"2017-01-01","badge":true,"title":"一月一日翌日","color":"indianred"},
+            {date:"2017-01-28","badge":true,"title":"農曆年初一","color":"indianred"},
+            {date:"2017-01-30","badge":true,"title":"農曆年初三","color":"indianred"},
+            {date:"2017-01-31","badge":true,"title":"農曆年初四","color":"indianred"},
+            {date:"2017-04-04","badge":true,"title":"清明節","color":"indianred"},
+            {date:"2017-04-14","badge":true,"title":"耶穌受難節","color":"indianred"},
+            {date:"2017-04-15","badge":true,"title":"耶穌受難節翌日","color":"indianred"},
+            {date:"2017-04-17","badge":true,"title":"復活節星期一","color":"indianred"},
+            {date:"2017-05-01","badge":true,"title":"勞動節","color":"indianred"},
+            {date:"2017-05-03","badge":true,"title":"佛誕","color":"indianred"},
+            {date:"2017-05-30","badge":true,"title":"端午節","color":"indianred"},
+            {date:"2017-07-01","badge":true,"title":"香港特別行政區成立紀念日","color":"indianred"},
+            {date:"2017-10-02","badge":true,"title":"國慶日翌日","color":"indianred"},
+            {date:"2017-10-03","badge":false,"title":"請3日放9日<br>國慶日連中秋節翌日)","color":"#595959"},
+            {date:"2017-10-04","badge":false,"title":"請3日放9日<br>(國慶日連中秋節翌日)","color":"#595959"},
+            {date:"2017-10-05","badge":true,"title":"中秋節翌日","color":"indianred"},
+            {date:"2017-10-06","badge":false,"title":"請3日放9日<br>(國慶日連中秋節翌日)","color":"#595959"},
+            {date:"2017-10-28","badge":true,"title":"重陽節","color":"indianred"},
+            {date:"2017-12-25","badge":true,"title":"聖誕節","color":"indianred"},
+            {date:"2017-12-26","badge":true,"title":"聖誕節後第一個周日","color":"indianred"},
+            {date:"2017-12-27","badge":false,"title":"請3日放10日<br>(聖誕節連元旦)","color":"#595959"},
+            {date:"2017-12-28","badge":false,"title":"請3日放10日<br>(聖誕節連元旦)","color":"#595959"},
+            {date:"2017-12-29","badge":false,"title":"請3日放10日<br>(聖誕節連元旦)","color":"#595959"},
+            {date:"2018-01-01","badge":true,"title":"一月一日","color":"indianred"},
+            {date:"2018-02-16","badge":true,"title":"農曆年初一","color":"indianred"},
+            {date:"2018-02-17","badge":true,"title":"農曆年初二","color":"indianred"},
+            {date:"2018-02-19","badge":true,"title":"農曆年初四","color":"indianred"},
+            {date:"2018-03-30","badge":true,"title":"耶穌受難節","color":"indianred"},
+            {date:"2018-03-31","badge":true,"title":"耶穌受難節翌日","color":"indianred"},
+            {date:"2018-04-02","badge":true,"title":"復活節星期一","color":"indianred"},
+            {date:"2018-04-05","badge":true,"title":"清明節","color":"indianred"},
+            {date:"2018-04-30","badge":false,"title":"請1日放4日<br>(連勞動節)","color":"#595959"},
+            {date:"2018-05-01","badge":true,"title":"勞動節","color":"indianred"},
+            {date:"2018-05-21","badge":false,"title":"請1日放4日<br>(連佛誕)","color":"#595959"},
+            {date:"2018-05-22","badge":true,"title":"佛誕","color":"indianred"},
+            {date:"2018-06-18","badge":true,"title":"端午節","color":"indianred"},
+            {date:"2018-07-02","badge":true,"title":"香港特別行政區成立紀念日翌日","color":"indianred"},
+            {date:"2018-09-25","badge":true,"title":"中秋節翌日","color":"indianred"},
+            {date:"2018-10-01","badge":true,"title":"國慶日","color":"indianred"},
+            {date:"2018-10-17","badge":true,"title":"重陽節","color":"indianred"},
+            {date:"2018-12-25","badge":true,"title":"聖誕節","color":"indianred"},
+            {date:"2018-12-26","badge":true,"title":"聖誕節後第一個周日","color":"indianred"}
+
+        ];
+        
+        function showcalandar(){
+            $("#calandar").show();
+            $("#holidays").hide();
+        }
+        
+        function showholidaylist(){
+            $("#calandar").hide();
+            $("#holidays").show();
+        }
+        
+        $(document).ready(function(){
+            //init();
+            
+            today();
+            holiday_list();
+            
+            $("#my-calendar").zabuto_calendar({
+                language: "hk",
+                cell_border: false,
+                weekstartson: 0,
+                today: true,
+                nav_icon: {
+                    prev: '<i class="glyphicon glyphicon-menu-left nav-icon"></i>',
+                    next: '<i class="glyphicon glyphicon-menu-right nav-icon"></i>'
+                },/*
+                legend: [
+                    {type: "text", label: "Special event", badge: "00"},
+                    {type: "block", label: "Regular event", classname: "purple"},
+                    {type: "spacer"},
+                    {type: "text", label: "Bad"},
+                    {type: "list", list: ["grade-1", "grade-2", "grade-3", "grade-4"]},
+                    {type: "text", label: "Good"}
+                ],*/
+                action: function() { testing(this.id); },
+                data: eventData
+            });
+            
+            
+        });
+        
+        function today(){
+            var now = new Date();
+            $("#todaydate").html(now.getFullYear()+"年"+(now.getMonth()+1)+"月"+now.getDate()+"日");
+        }
+        
+        function testing(id){
+            $("#daywidget").show();
+            $('#daywidget').animateCss('flipInX');
+            
+            var date = $("#" + id).data("date");
+            //console.log(id);
+            //console.log(date);
+            //console.log($("#" + id)[0].innerText);
+            var datesplit = (date.split("-"));
+            
+            //$("#daywidget > #day").html( (($("#" + id)[0].innerText).trim()));
+            $("#daywidget > #day").html(parseInt(datesplit[1]) + "月" + parseInt(datesplit[2]) + "日" );
+            
+            //console.log($("#" + id).data());
+            
+            var result = $.grep(eventData, function(e){ return e.date == date; });
+            if(result[0] !== undefined){
+                //console.log(result[0]);
+                $("#daywidget > #event").html( result[0].title );
+                //$("#daywidget").attr("style","background: url('img/winter.jpg') no-repeat center center; background-size: cover;");
+                $("#daywidget").css("border-color", result[0].color );
+                $("#daywidget").css("color", result[0].color );
+                $("#daywidget > #daydiff").css("color", result[0].color );
+            }else{
+                //$("#daywidget").attr("style","background:none; background-color:black;");
+                $("#daywidget > #event").html("");
+                $("#daywidget").css("border-color", "#808080" );
+                $("#daywidget").css("color", "#808080" );
+                $("#daywidget > #daydiff").css("color", "#808080" );
+            }
+            
+            $("#daywidget > #daydiff").html("<i class='glyphicon glyphicon-time'/>&nbsp;距離今天 "+ dateDiffInDays(new Date(),new Date(date)) + " 日");
+        }
+        
+        function holiday_list(){
+            for(i=0; i<eventData.length; i++){
+                var datediff = dateDiffInDays(new Date(),new Date(eventData[i].date));
+                var date = (eventData[i].date).split("-");
+                if((eventData[i].date).indexOf("2017") !== -1){
+                    $("#holidaylist2017").append('<li class="list-group-item"><span class="badge">'+date[1]+'月'+date[2]+'日</span> <span class="badge"><i class="glyphicon glyphicon-time"/>&nbsp;'+datediff+'日</span>'+eventData[i].title+'</li>');
+                }else if((eventData[i].date).indexOf("2018") !== -1){
+                    $("#holidaylist2018").append('<li class="list-group-item"><span class="badge">'+date[1]+'月'+date[2]+'日</span> <span class="badge"><i class="glyphicon glyphicon-time"/>&nbsp;'+datediff+'日</span>'+eventData[i].title+'</li>');
+                }
+            }
+        }
+        
+        function timestamp2date(unix_timestamp){
+            var date = new Date(unix_timestamp*1000);
+            var hours = date.getHours();
+            var minutes = "0" + date.getMinutes();
+            var seconds = "0" + date.getSeconds();
+
+            return formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        }
+        
+        var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+        
+        function dateDiffInDays(a, b) {
+          // Discard the time and time-zone information.
+          var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+          var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+          return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+        }
+        
+        function sumbit_pressed(){
+            var question = $("#choiceA").val() + " OR "+ $("#choiceB").val();
+            submit_question(Date.now(),question,0);
+        }
+        
+        function submit_question(id, question, count) {
+          firebase.database().ref('vote/question/' + id).set({
+                question: question,
+                time : (Date.now()),
+                count: count
+          });
+            
+            get_question();
+        }
+        
+        function get_question(){
+            $("#loading").show();
+            return firebase.database().ref('vote/question/').once('value').then(function(snapshot) {
+                var val = snapshot.val();
+                //console.log(val);
+                $("#questions").html("");
+                
+                $.each( val, function( key, value ) {
+                    //console.log( key + ": " + value );
+                    if(value !== undefined){
+                        $("#questions").append('<li class="list-group-item" id="q'+key+'"> <span class="badge">'+value.count+'</span> '+value.question+'&nbsp;&nbsp;<small>'+timestamp2date(value.time)+'</small> </li>'); 
+                    }
+                    $("#loading").hide();
+                });
+                
+            });
+        }
+
+        
+        function init(){
+            firebase.auth().signInAnonymously().catch(function(error) {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              console.log("errorCode: "+errorCode);
+              console.log("errorMessage: "+errorMessage);
+            });
+            
+            //submit_question(1,"It is question 1",0);
+            get_question();
+            
+        }
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            var isAnonymous = user.isAnonymous;
+            var uid = user.uid;
+            //console.log("isAnonymous: "+isAnonymous);
+            //alert("uid: "+uid);
+          } else {
+            //console.log("logged out");
+          }
+        });
+
+    </script>
+    
+    <script>
+        var options = {
+          dragLockToAxis: true,
+          dragBlockHorizontal: true
+        };
+
+        var myElement = document.getElementById('my-calendar');
+ 
+        var mc = new Hammer(myElement,options);
+        // listen to events...
+        mc.on("swipeleft", function(ev) {
+            console.log(ev.type);
+            $(".zabuto_calendar .calendar-month-header th:nth-child(3) div").trigger( "click" );
+            //$("#daywidget").hide();
+        });
+        
+        mc.on("swiperight", function(ev) {
+            console.log(ev.type);
+            $(".zabuto_calendar .calendar-month-header th:nth-child(1) div").trigger( "click" );
+            //$("#daywidget").hide();
+        });
+    </script>
+    
+</body>
+
+<!--
+
+    Recommended JavaScript library load order for hybrid Cordova apps:
+
+    * "Device-Independent" JavaScript libraries.
+    * optional: weinre debug script tag for remote console debug (see notes).
+    * Intel XDK device JavaScript library.
+    * Cordova/PhoneGap device JavaScript library.
+    * "Device-Dependent" JavaScript libraries.
+    * Application JavaScript <script> tags and libraries.
+    * optional: weinre debug script tag for remote console debug (see notes).
+
+    In complex projects, the JavaScript load order is important. You must
+    insure that the underlying device API native code finishes its init, which
+    usually takes longer than the webview init...
+
+    VERY IMPORTANT: notice that all of the libraries used in this project are
+    located within the app's local directories, which means they will get
+    bundled with the app. They are NOT being pulled in over the net. In most
+    cases, this is what you should be doing when you build a hybrid mobile
+    app. This insures that you always use the JS code that you debugged
+    against AND that you are not requiring a data connection (network
+    connection) to get the app started. If your app startup required a data
+    connection to initialize and start interaction with the user, lack of a
+    reliable network connection could be disasterous. Not to mention it
+    generally results in a slower load time. Loading locally is much
+    friendlier to your end user's data plan and their device battery.  :-)
+
+    NOTE: do not use a directory prefix with the cordova.js file - it is
+    inserted automatically by the build system, simulator and other tools and
+    is assumed to be in the index.html source directory. You will not find
+    this JS file anywhere in your project, it is a "phantom" library. If you
+    do see copies of this file as part of your project it should be removed to
+    avoid confusion and problems.
+
+    LIBRARY NOTE: If you are using a large number of JavaScript libraries,
+    especially third-party libraries (like jQuery, {{ mustache }}, Underscore,
+    etc.) that are "independent" of the device APIs provided by the Cordova
+    library and plugins - and they are independent of your app code - your
+    app initialization will be most successful if you load these libraries
+    BEFORE the Cordova JS file, in the <head> section of your index.html file.
+    Obviously, any code that depends on Cordova APIs must be loaded AFTER the
+    cordova.js library.
+
+    Libraries that are "independent" of the device APIs are libraries that you
+    could use in a desktop browser. "Dependent" libraries are, most likely,
+    your own code that you've written specifically to work with the Cordova
+    device APIs. In some cases, if your device-dependent code requires access
+    to device-independent code to get started, you may have to use something
+    like CommonJS to force the device-dependent code to wait for the
+    device-independent code to initialize, otherwise you may have trouble
+    getting your app started.
+
+    Because of this added dependency on the underlying native code (device)
+    initialization, you should not use the "document ready" event to start
+    your application. You should wait for the cordova "deviceready" event
+    before you begin your application (if it uses any Cordova device APIs); in
+    practice, it is best to wait for both. (See the init-dev.js file in this
+    template for an example of how to wait for both, it generates a custom
+    "app.Ready" event that you can wait for and just forget about the other
+    events.)
+
+    NOTE: *any* library that redefines addEventListener() or fiddles with
+    outstanding events may interfere with capturing the Cordova "deviceready"
+    event and should, therefore, be placed *BEFORE* the Cordova JS library in
+    the load order.
+
+    ALSO: if you use weinre for debugging, you may have to experiment with the
+    placement of the weinre script. Some recommended locations are shown
+    within this app. If these locations do not work, you may have to
+    experiment. The optimum placement can be app-specific, primarily as a
+    function of the included JavaScript libraries and your initialization.
+
+-->
+
+</html>
